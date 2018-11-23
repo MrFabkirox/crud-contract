@@ -1,26 +1,87 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import MyComponent from './MyComponent'
 import './App.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+
+    // bounding method of component onSubmit to onSubmit in window
+    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      title: 'initial App title'
+    }
+    this.onClick = this.onClick.bind(this)
+  }
+  
+  onClick() {
+    alert('clicked')
+    this.setState({
+      title: 'New app title'
+    })
+  }
+
+  onChange(event) {
+    console.log(event.target.value)
+  }
+
+  onSubmit(event) {
+    // prevent form refreshing
+    event.preventDefault();
+
+    alert(this.input.value)
+  }
+
   render() {
+    const title = 'title variable'
+    const title2 = 'title2'
+
+    const list = [
+      'item1',
+      'item2',
+      'item3'
+    ]
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+        <h1>crud contract { true? title : title2 } </h1>
+
+        <h1>Onclick:<br />
+          {
+            list.map(item => {
+              return(
+                <div key={item} onClick={this.onClick}>{item}</div>
+              )
+            })
+          }
+        </h1>
+
+        <form onChange={this.onChange} >
+          <input onChange={this.onChange} 
+          />
+        </form>
+
+        <form onSubmit={this.onSubmit} >
+          <input onChange={this.onChange} 
+            ref={input => this.input = input}
+          />
+        </form>
+
+        <h1>{this.state.title}</h1>
+        <div onClick={this.onClick}>click here to change title state</div>
+
+        <div>
+          <MyComponent 
+            title={this.state.title}
+            name='name set in the embeded component'
+            onClick={this.onClick}
+          />
+        </div>
+
       </div>
+
     );
   }
 }
